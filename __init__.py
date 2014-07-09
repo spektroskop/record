@@ -6,7 +6,8 @@ class Base(tuple):
   def __repr__(self):
     return self.__class__.__name__ + tuple.__repr__(self)
 
-def Record(*slots):
+def Record(*slots, name=None):
   getitem = lambda i: lambda s: tuple.__getitem__(s, i)
   props = [(slot, property(getitem(i))) for i, slot in enumerate(slots)]
-  return type('Record', (Base,), dict(props + [('slots', slots)]))
+  return type(name if name else 'Record', (Base,),
+      dict(props + [('slots', slots)]))
